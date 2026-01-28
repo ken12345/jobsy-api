@@ -6,4 +6,8 @@ const apiRouter: Router = express.Router();
 
 apiRouter.use('/users', userRoutes);
 
+apiRouter.get('/', (req, res) => {
+  res.send('im working');
+});
+
 export default apiRouter;

@@ -4,6 +4,6 @@ import userRoutes from './user.routes';
 
 const apiRouter: Router = express.Router();
 
-apiRouter.use('/user', userRoutes);
+apiRouter.use('/users', userRoutes);
 
 export default apiRouter;

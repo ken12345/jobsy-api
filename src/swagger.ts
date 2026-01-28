@@ -13,6 +13,10 @@ const options: swaggerJsdoc.Options = {
         url: 'http://localhost:3000/api',
         description: 'Jobsy Dev Server',
       },
+      {
+        url: 'http://72.61.119.52:5000/api',
+        description: 'Jobsy Dev Remote Server',
+      },
     ],
   },
   apis: ['./src/routes/*.ts', './src/controllers/*.ts'],

@@ -1,9 +1,8 @@
 import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger'; 
-
+import sequelizeConnection, {connectDB} from './config/database';
 import apiRouter from './routes/index';
-import sequelizeConnection from './config/database';
 
 import * as dotenv from 'dotenv';
 
@@ -19,17 +18,8 @@ app.use(express.json());
 
 app.use('/api', apiRouter);
 
-const connectToDatabase = async () => {
-  try {
-    await sequelizeConnection.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-};
-
-connectToDatabase();
-
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
+  await connectDB();
+  await sequelizeConnection.sync({ force: false }); 
   console.log(`Server is running on http://localhost:${PORT} ${process.env.PORT}`);
 });

@@ -1,15 +1,14 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
-import type { IUser } from '../interfaces/user.interface';
+import { Request, Response } from 'express';
+import { UserService } from '../services/user.service';
 
-export class UserController {
+class UserController {
 
-    users: IUser[] = [
-      {id: 1, username: "ken", password: "123", role: 0},
-      {id: 2, username: "funks", password: "123", role: 1},
-      {id: 3, username: "boks", password: "123", role: 0}
-    ];
+  private userService: UserService;
 
-  
+   constructor(userService: UserService) {
+    this.userService = userService;
+  }
+
 /**
  * @swagger
  *  /users/{id}:
@@ -44,15 +43,14 @@ export class UserController {
  * 
  */
   
-  public async getUserById(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const userId = req?.params?.id;
-
-    const user = this.users.find((el: IUser) => el?.id === Number(userId));
-    if(!user) {
-      res.json({ok: true, error: "user not found"});
-      return;
+  public async getUserById(req: Request, res: Response): Promise<void> {
+    const userId: number = Number(req?.params?.id) || 0;
+    try {
+      const users = await this.userService.getUserById(userId);
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving user by Id', error });
     }
-    res.json(user);
   };
 
 
@@ -82,7 +80,15 @@ export class UserController {
  *                      type: number
  * 
  */
-  public async getAllUser(req: Request, res: Response, next: NextFunction) {
-    res.json(this.users);
+  public async getAllUser(req: Request, res: Response) {
+    try {
+      const users = await this.userService.getAllUser();
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving users', error });
+    }
   }
 }
+
+const userServiceInstance = new UserService();
+export default new UserController(userServiceInstance);

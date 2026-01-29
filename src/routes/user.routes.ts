@@ -1,12 +1,9 @@
 import express, { Router, Request, Response } from 'express';
-import { UserController } from '../controllers/user.controller';
+import UserController from '../controllers/user.controller';
 
 const router: Router = express.Router();
 
-const userController = new UserController();
-
-router.get('/:id', userController.getUserById.bind(userController));
-
-router.get('/', userController.getAllUser.bind(userController));
+router.get('/', (req, res) => UserController.getAllUser(req, res));
+router.get('/:id', (req, res) => UserController.getUserById(req, res));
 
 export default router;

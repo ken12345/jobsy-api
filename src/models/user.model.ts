@@ -1,5 +1,6 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model, Optional, CreationOptional, InferAttributes, InferCreationAttributes } from 'sequelize';
 import sequelizeConnection from '../config/database';
+import bcrypt from 'bcryptjs';
 
 interface UserAttributes {
   id: number;
@@ -15,6 +16,10 @@ class User extends Model<UserAttributes , UserCreationAttributes> implements Use
   username!: string;
   password!: string;
   role!: number;
+
+  public validPassword(password: string): boolean {
+    return bcrypt.compareSync(password, this.password);
+  }
 }
 
 User.init(
@@ -27,7 +32,19 @@ User.init(
   },
   {
     sequelize: sequelizeConnection,
-    tableName: 'user'
+    tableName: 'user',
+     hooks: {
+      beforeCreate: async (user: User) => {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+      },
+      beforeUpdate: async (user: User) => {
+        if (user.changed('password')) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+        }
+      }
+    }
   }
 )
 

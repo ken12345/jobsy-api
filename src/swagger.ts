@@ -4,18 +4,18 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Jobsy API',
+      title: 'smartMe API',
       version: '1.0.0',
-      description: 'Jobsy API for both customer and admin',
+      description: 'smartMe API for both customer and admin',
     },
     servers: [
       {
         url: 'http://localhost:3000/api',
-        description: 'Jobsy Dev Server',
+        description: 'smartMe Dev Server',
       },
       {
         url: 'http://72.61.119.52:5000/api',
-        description: 'Jobsy Dev Server',
+        description: 'smartMe Dev Server',
       }
     ],
   },

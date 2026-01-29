@@ -12,7 +12,9 @@ export class UserService {
     })
   }
 
-   public async createUser(userData: { username: string; password: string, role: number, dateCreated: Date, dateUpdated: Date }) {
+
+
+   public async createUser(userData: { username: string; password: string, role: number }) {
     return User.create(userData);
   }
 }

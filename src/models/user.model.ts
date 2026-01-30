@@ -2,10 +2,10 @@ import { DataTypes, Model, Optional, CreationOptional, InferAttributes, InferCre
 import sequelizeConnection from '../config/database';
 import bcrypt from 'bcryptjs';
 
-interface UserAttributes {
+export interface UserAttributes {
   id: number;
   username: string;
-  password: string;
+  password?: string;
   role: number;
 }
 

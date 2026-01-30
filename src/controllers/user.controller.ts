@@ -146,6 +146,59 @@ class UserController {
       res.status(500).json({ error: 'Error registering user' });
     }
   }
+
+  /**
+ * @swagger
+ * /users/authenticate:
+ *   post:
+ *     summary: User authentication
+ *     description: authenticate user when logging in
+ *     tags: [Users]
+ *     requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - username
+ *                - password
+ *              properties:
+ *                username:
+ *                  type: string
+ *                  example: 'ken_pogi'
+ *                password:
+ *                  type: string
+ *                  example: 'ken_123'
+ *     responses:
+ *       201:
+ *        description: User is authenticated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              properties:
+ *                id:
+ *                  type: integer
+ *                username:
+ *                  type: string
+ *                password:
+ *                  type: string
+ *                role:
+ *                  type: number
+
+ */
+
+   public async authenticateUser(req: Request<{}, {}, IUser>, res: Response) {
+    const { username, password } = req.body;
+    try {
+      const user = await this.userService.login({username, password});
+       res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Invalid User' });
+    }
+  }
 }
 
 

@@ -12,7 +12,9 @@ const app: Application = express();
 
 const PORT: string | number = process.env.PORT || 3000;
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+if(process.env.NODE_ENV !== "production") {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 
 app.use(express.json());
 

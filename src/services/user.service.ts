@@ -15,7 +15,7 @@ export class UserService {
     })
   }
 
-   public async createUser(userData: { username: string; password: string, role: number }) {
+   public async createUser(userData: { username: string; password: string, merchant_id: number }) {
     return User.create(userData);
   }
 

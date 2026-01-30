@@ -39,7 +39,7 @@ class UserController {
  *                     type: string
  *                   password:
  *                      type: string
- *                   role:
+ *                   merchant_id:
  *                      type: number
  * 
  */
@@ -78,7 +78,7 @@ class UserController {
  *                     type: string
  *                   password:
  *                      type: string
- *                   role:
+ *                   merchant_id:
  *                      type: number
  * 
  */
@@ -107,7 +107,7 @@ class UserController {
  *              required:
  *                - username
  *                - password
- *                - role
+ *                - merchant_id
  *              properties:
  *                username:
  *                  type: string
@@ -115,7 +115,7 @@ class UserController {
  *                password:
  *                  type: string
  *                  example: 'ken_123'
- *                role:
+ *                merchant_id:
  *                  type: integer
  *                  sample: 1
  *     responses:
@@ -132,14 +132,14 @@ class UserController {
  *                  type: string
  *                password:
  *                  type: string
- *                role:
+ *                merchant_id:
  *                  type: number
 
  */
   public async createUser(req: Request<{}, {}, IUser>, res: Response) {
-    const { username, password, role } = req.body;
+    const { username, password, merchant_id } = req.body;
     try {
-      const newUser = await this.userService.createUser({username, password, role})
+      const newUser = await this.userService.createUser({username, password, merchant_id})
       res.status(201).json({ message: 'User registered successfully', newUser });
     } catch (error) {
       console.error(error);
@@ -184,7 +184,7 @@ class UserController {
  *                  type: string
  *                password:
  *                  type: string
- *                role:
+ *                merchant_id:
  *                  type: number
 
  */

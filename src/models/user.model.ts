@@ -6,7 +6,7 @@ export interface UserAttributes {
   id: number;
   username: string;
   password?: string;
-  role: number;
+  merchant_id: number;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {};
@@ -15,7 +15,7 @@ class User extends Model<UserAttributes , UserCreationAttributes> implements Use
   id!: number;
   username!: string;
   password!: string;
-  role!: number;
+  merchant_id!: number;
 
   public validPassword(password: string): boolean {
     return bcrypt.compareSync(password, this.password);
@@ -27,7 +27,7 @@ User.init(
     id: {type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true},
     username: {type: new DataTypes.STRING(50), allowNull: false},
     password: {type: new DataTypes.STRING(250), allowNull: false},
-    role: {type: DataTypes.INTEGER, allowNull: false },
+    merchant_id: {type: DataTypes.INTEGER, allowNull: false },
 
   },
   {

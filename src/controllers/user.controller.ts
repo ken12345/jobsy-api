@@ -139,8 +139,7 @@ class UserController {
   public async createUser(req: Request, res: Response) {
     const { username, password, role } = req.body;
     try {
-      const newUser = this.userService.createUser({username, password, role})
-      console.log("kensh new", newUser)
+      const newUser = await this.userService.createUser({username, password, role})
       res.status(201).json({ message: 'User registered successfully', newUser });
     } catch (error) {
       console.error(error);

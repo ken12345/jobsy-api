@@ -26,7 +26,7 @@ User.init(
   {
     id: {type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true},
     username: {type: new DataTypes.STRING(50), allowNull: false},
-    password: {type: new DataTypes.STRING(50), allowNull: false},
+    password: {type: new DataTypes.STRING(250), allowNull: false},
     role: {type: DataTypes.INTEGER, allowNull: false },
 
   },

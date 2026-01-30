@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
-
+import type { IUser } from '../interfaces/user.interface';
 class UserController {
 
   private userService: UserService;
@@ -136,7 +136,7 @@ class UserController {
  *                  type: number
 
  */
-  public async createUser(req: Request, res: Response) {
+  public async createUser(req: Request<{}, {}, IUser>, res: Response) {
     const { username, password, role } = req.body;
     try {
       const newUser = await this.userService.createUser({username, password, role})

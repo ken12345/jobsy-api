@@ -16,7 +16,7 @@ class MerchantController {
  * @swagger
  * /merchants:
  *   post:
- *     summary: Create a user
+ *     summary: Create a merchant
  *     description: create a merchant
  *     tags: [Merchants]
  *     requestBody:

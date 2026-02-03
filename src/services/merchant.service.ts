@@ -21,4 +21,8 @@ export class MerchantService {
     }) {
     return Merchant.create(merchantData, {include: {model: User}});
   }
+
+  public getMerchantById(id: number) {
+    return Merchant.findByPk(id);
+  }
 }

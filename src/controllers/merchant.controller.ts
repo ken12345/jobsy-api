@@ -77,6 +77,52 @@ class MerchantController {
  *                  example: '12345'
  *     responses:
  *       201:
+ *        description: Get merchant by ID successful
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              properties:
+ *                id:
+ *                  type: integer
+ *                merchantName:
+ *                  type: string
+ *                description:
+ *                  type: string
+ *                address:
+ *                  type: string
+ *                openTime:
+ *                  type: string
+ *                closeTime:
+ *                  type: string
+ *                locationCoord:
+ *                  type: string
+ *                availabilty:
+ *                  type: boolean
+ *                logo:
+ *                  type: string
+ *                code:
+ *                  type: string
+ *                updatedBy:
+ *                  type: string
+ */
+
+  /**
+ * @swagger
+ *  /merchants/{id}:
+ *   get:
+ *     summary: Get merchant by ID
+ *     description: Retrieve a user using its id from db.
+ *     tags: [Merchants]
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: integer
+ *            required: true
+ *            description: Numeric ID of the user to get
+  *     responses:
+ *       200:
  *        description: Create merchant successful
  *        content:
  *          application/json:
@@ -105,7 +151,6 @@ class MerchantController {
  *                  type: string
  *                updatedBy:
  *                  type: string
-
  */
 
   public async createMerchant(req:Request<{}, {}, IMerchant>, res: Response) {
@@ -119,6 +164,17 @@ class MerchantController {
       res.status(500).json({ error: 'Error registering user' });
     }
   }
+
+  public async getMerchantById(req: Request, res: Response): Promise<void> {
+    const id: number = Number(req?.params?.id) || 0;
+    try {
+      const merchant = await this.merchantService.getMerchantById(id);
+      res.status(200).json(merchant);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving user by Id', error });
+      throw error
+    }
+  };
 }
 
 

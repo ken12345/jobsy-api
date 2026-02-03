@@ -6,17 +6,18 @@ import { Model, WhereOptions } from 'sequelize';
 
 export class UserService {
 
-  public async getAllUser() {
-    return User.findAll();
-  }
-
   public async getUserById(id: number) {
-    return User.findOne({
-      where: {id},
+    const user = await User.findByPk(id, {
       include: [{
         model: Merchant
       }]
     })
+    if(user === null) {
+      return user;
+    }
+    const userWithoutPassword: Omit<UserAttributes, 'password'> = user.toJSON();
+    delete (userWithoutPassword as UserAttributes).password;
+    return userWithoutPassword;
   }
 
    public async createUser(userData: { username: string; password: string, merchantId: number }) {

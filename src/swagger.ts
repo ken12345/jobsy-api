@@ -18,7 +18,19 @@ const options: swaggerJsdoc.Options = {
         description: 'Bitezy DEV Server',
       }
     ],
+
+    components: {
+      securitySchemes: {
+        ApiKeyAuth: { // Arbitrary name
+          type: 'apiKey',
+          in: 'header',
+          name: 'X-API-KEY', // The header name
+        },
+      },
+    },
+    security: [{ ApiKeyAuth: [] }], 
   },
+
   apis: ['./src/routes/*.ts', './src/controllers/*.ts'],
 };
 

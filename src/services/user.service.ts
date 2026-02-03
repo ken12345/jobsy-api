@@ -1,7 +1,8 @@
 import User from "../models/user.model";
+import Merchant from "../models/merchant.model";
 import type { UserAttributes } from "../models/user.model";
 import bcrypt from 'bcryptjs';
-import { WhereOptions } from 'sequelize';
+import { Model, WhereOptions } from 'sequelize';
 
 export class UserService {
 
@@ -11,11 +12,14 @@ export class UserService {
 
   public async getUserById(id: number) {
     return User.findOne({
-      where: {id}
+      where: {id},
+      include: [{
+        model: Merchant
+      }]
     })
   }
 
-   public async createUser(userData: { username: string; password: string, merchant_id: number }) {
+   public async createUser(userData: { username: string; password: string, merchantId: number }) {
     return User.create(userData);
   }
 
@@ -23,8 +27,9 @@ export class UserService {
     try {
        const user = await User.findOne({
         where: { username: userData?.username } as WhereOptions<UserAttributes>,
+        include: [{model: Merchant}]
       });
-       if (!user) {
+      if (!user) {
         return null;
       }
       const isPasswordValid = await bcrypt.compare(userData?.password, user.password);

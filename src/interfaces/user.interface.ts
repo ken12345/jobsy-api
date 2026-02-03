@@ -2,7 +2,7 @@ export interface IUser {
   id: number;
   username: string;
   password: string;
-  merchant_id: number;
+  merchantId: number;
 }
 
 export interface ILoginUser {

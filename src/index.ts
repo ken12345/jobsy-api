@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger'; 
 import sequelizeConnection, {connectDB} from './config/database';
 import apiRouter from './routes/index';
+import './config/associations'
 
 import * as dotenv from 'dotenv';
 
@@ -23,7 +24,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', apiRouter);
 
 app.listen(PORT, async() => {
-  await connectDB();
-  await sequelizeConnection.sync({ force: false }); 
   console.log(`Server is running on http://localhost:${PORT} ${process.env.PORT}`);
+  connect();
 });
+
+const connect = async() =>{
+   await connectDB();
+  await sequelizeConnection.sync({ force: false }); 
+}

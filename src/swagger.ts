@@ -4,18 +4,18 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'smartMe API',
+      title: 'Bitezy API',
       version: '1.0.0',
-      description: 'smartMe API for both customer and admin',
+      description: 'Bitezy API for both customer and admin',
     },
     servers: [
       {
         url: 'http://localhost:3000/api',
-        description: 'smartMe Dev Server',
+        description: 'Bitezy local erver',
       },
       {
         url: 'https://api.bitezy.online/api',
-        description: 'smartMe Dev Server',
+        description: 'Bitezy DEV Server',
       }
     ],
   },

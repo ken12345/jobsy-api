@@ -39,7 +39,7 @@ class UserController {
  *                     type: string
  *                   password:
  *                      type: string
- *                   merchant_id:
+ *                   merchantId:
  *                      type: number
  * 
  */
@@ -51,6 +51,7 @@ class UserController {
       res.status(200).json(users);
     } catch (error) {
       res.status(500).json({ message: 'Error retrieving user by Id', error });
+      throw error
     }
   };
 
@@ -78,7 +79,7 @@ class UserController {
  *                     type: string
  *                   password:
  *                      type: string
- *                   merchant_id:
+ *                   merchantId:
  *                      type: number
  * 
  */
@@ -107,7 +108,7 @@ class UserController {
  *              required:
  *                - username
  *                - password
- *                - merchant_id
+ *                - merchantId
  *              properties:
  *                username:
  *                  type: string
@@ -115,7 +116,7 @@ class UserController {
  *                password:
  *                  type: string
  *                  example: 'ken_123'
- *                merchant_id:
+ *                merchantId:
  *                  type: integer
  *                  sample: 1
  *     responses:
@@ -132,14 +133,14 @@ class UserController {
  *                  type: string
  *                password:
  *                  type: string
- *                merchant_id:
+ *                merchantId:
  *                  type: number
 
  */
   public async createUser(req: Request<{}, {}, IUser>, res: Response) {
-    const { username, password, merchant_id } = req.body;
+    const { username, password, merchantId } = req.body;
     try {
-      const newUser = await this.userService.createUser({username, password, merchant_id})
+      const newUser = await this.userService.createUser({username, password, merchantId})
       res.status(201).json({ message: 'User registered successfully', newUser });
     } catch (error) {
       console.error(error);
@@ -184,7 +185,7 @@ class UserController {
  *                  type: string
  *                password:
  *                  type: string
- *                merchant_id:
+ *                merchantId:
  *                  type: number
 
  */

@@ -112,7 +112,7 @@ class MerchantController {
  *  /merchants/{id}:
  *   get:
  *     summary: Get merchant by ID
- *     description: Retrieve a user using its id from db.
+ *     description: Retrieve a merchant using its id from db.
  *     tags: [Merchants]
  *     parameters:
  *        - in: path

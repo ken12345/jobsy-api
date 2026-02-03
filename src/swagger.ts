@@ -14,7 +14,7 @@ const options: swaggerJsdoc.Options = {
         description: 'smartMe Dev Server',
       },
       {
-        url: 'http://72.61.119.52:5000/api',
+        url: 'https://api.bitezy.online/api',
         description: 'smartMe Dev Server',
       }
     ],

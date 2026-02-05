@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './swagger'; 
-import sequelizeConnection, {connectDB} from './config/database';
+import swaggerSpec from './swagger';
+import sequelizeConnection, { connectDB } from './config/database';
 import apiRouter from './routes/index';
 import './config/associations';
 import cors from 'cors';
@@ -17,8 +17,9 @@ const PORT: string | number = process.env.PORT || 3000;
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5152',
-  'https://www.bitezy.online',
-  'https://www.api.bitezy.online'
+  'http://localhost:3000',
+  'https://bitezy.online',
+  'https://api.bitezy.online'
 ];
 
 const options: cors.CorsOptions = {
@@ -34,7 +35,7 @@ const options: cors.CorsOptions = {
 
 app.use(cors(options));
 
-if(process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production") {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
@@ -44,12 +45,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', apiRouter);
 
-app.listen(PORT, async() => {
+app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT} ${process.env.PORT}`);
   connect();
 });
 
-const connect = async() =>{
-   await connectDB();
-  await sequelizeConnection.sync({ force: false }); 
+const connect = async () => {
+  await connectDB();
+  await sequelizeConnection.sync({ force: false });
 }

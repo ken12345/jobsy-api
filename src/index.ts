@@ -5,6 +5,7 @@ import sequelizeConnection, { connectDB } from './config/database';
 import apiRouter from './routes/index';
 import './config/associations';
 import cors from 'cors';
+import path from 'path';
 
 import * as dotenv from 'dotenv';
 
@@ -22,6 +23,7 @@ const allowedOrigins = [
   'https://api.bitezy.online'
 ];
 
+app.use(express.static(path.join(__dirname, 'public')));
 const options: cors.CorsOptions = {
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);

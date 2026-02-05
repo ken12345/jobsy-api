@@ -3,8 +3,8 @@ import UserController from '../controllers/user.controller';
 
 const router: Router = express.Router();
 
-router.get('/:id', (req, res) => UserController.getUserById(req, res));
-router.post('/', (req, res) => UserController.createUser(req, res));
-router.post('/authenticate', (req, res) => UserController.authenticateUser(req, res))
+router.get('/:id', (req: Request, res: Response) => UserController.getUserById(req, res));
+router.post('/', (req: Request, res: Response) => UserController.createUser(req, res));
+router.post('/authenticate',  (req: Request, res: Response) => UserController.authenticateUser(req, res))
 
 export default router;

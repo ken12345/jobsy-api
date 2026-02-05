@@ -1,6 +1,4 @@
-import type { MerchantAttributes } from "../models/merchant.model";
 import Merchant from "../models/merchant.model";
-import { WhereOptions } from 'sequelize';
 
 import User from "../models/user.model";
 

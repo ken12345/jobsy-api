@@ -9,5 +9,6 @@ declare namespace NodeJS {
     DB_DRIVER: string;
     NODE_ENV: 'development' | 'production' | 'test';
     DB_PORT: string;
+    SERVICE_KEY: string;
   }
 }

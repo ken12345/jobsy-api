@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      window.onload = function() {
+         const element = document.querySelector('form');
+        element.addEventListener('submit', async(event) => {
+          event.preventDefault();
+          const formData = new FormData(ken);
+          const data = Object.fromEntries(formData.entries());
+          let fd = new FormData()
+          fd.append('file', data.file, "chris.jpg")
+          //  fd.append("merchantId", data.merchantId)
+          console.log(data.file.File, fd)
+          const res = await fetch("http://localhost:5152/api/products", {
+            method: "POST",
+            headers: { 'x-api-key': '1hsds34TTsdf3w4522-QQww32d',},
+            body: fd
+          }).then((resp) => resp.json())
+        });
+      }
+       
+    </script>
+  </head>
+  <body>
+    <form id="ken">
+       <div>
+      <input type="file" name="file"/>
+    </div>
+     <div>
+      <input type="text" name="merchantId"/>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+    </form>
+   
+  </body>
+</html>

@@ -7,7 +7,7 @@ export class FileService {
     try {
    
       if (!merchantId || !file) {
-        return;
+        return "";
       }
       const form = new FormData();
       form.append("merchantId", merchantId);

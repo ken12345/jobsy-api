@@ -24,6 +24,16 @@ class ProductController {
       throw error;
     }
   }
+  public async getProductById(req: Request, res: Response) {
+    try {
+      const id: number = Number(req?.params?.id);
+      const result = await this.productsService.getProductById(id);
+       res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({error });
+       throw error;
+    }
+  }
 }
 
 /**
@@ -41,15 +51,10 @@ class ProductController {
  *              type: object
  *              required:
  *                - name
- *                - description
  *                - price
  *                - isAvailable
  *                - merchantId
  *                - eta
- *                - bestSeller
- *                - createdBy
- *                - updatedBy
- *                - file
  *              properties:
  *                name:
  *                  type: string
@@ -89,29 +94,29 @@ class ProductController {
  *          application/json:
  *            schema:
  *              type: array
- *              properties:
- *                id:
- *                  type: integer
- *                name:
- *                  type: string
- *                description:
- *                  type: string
- *                imageUrl:
- *                  type: string
- *                price:
- *                  type: number
- *                isAvailable:
- *                  type: boolean
- *                merchantId:
- *                  type: number
- *                bestSeller:
- *                  type: number
- *                eta:
- *                  type: string
- *                createdBy:
- *                  type: string
- *                updatedBy:
- *                  type: string
+ */
+
+/**
+ * @swagger
+ *  /products/{id}:
+ *   get:
+ *     summary: Get Product by ID
+ *     description: Retrieve a product using its id from db.
+ *     tags: [Products]
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: integer
+ *            required: true
+ *            description: Numeric ID of the product to get
+  *     responses:
+ *       200:
+ *        description: product found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
  */
 
 const productsInstance = new ProductsService();

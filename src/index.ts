@@ -16,7 +16,9 @@ const PORT: string | number = process.env.PORT || 3000;
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://www.bitezy.online/'
+  'http://localhost:5152',
+  'https://www.bitezy.online',
+  'https://www.api.bitezy.online'
 ];
 
 const options: cors.CorsOptions = {

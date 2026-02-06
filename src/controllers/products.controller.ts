@@ -24,6 +24,7 @@ class ProductController {
       throw error;
     }
   }
+
   public async getProductById(req: Request, res: Response) {
     try {
       const id: number = Number(req?.params?.id);
@@ -34,7 +35,35 @@ class ProductController {
        throw error;
     }
   }
+
+  public async updateProduct(req: Request, res: Response) {
+    try {
+       const id: number = Number(req?.params?.id);
+      const updated = await this.productsService.updateProductById(id, req.body);
+      res.status(200).json(updated);
+    } catch (error) {
+       res.status(500).json({error });
+       throw error;
+    }
+    
+  }
+
+  public async deleteProduct(req: Request, res: Response) {
+     try {
+       const id: number = Number(req?.params?.id);
+      const removed = await this.productsService.deleteProduct(id);
+      res.status(200).json(removed);
+    } catch (error) {
+       res.status(500).json({error });
+       throw error;
+    }
+  }
 }
+
+const productsInstance = new ProductsService();
+const fileInstance = new FileService();
+export default new ProductController(productsInstance, fileInstance);
+
 
 /**
 * @swagger
@@ -89,7 +118,7 @@ class ProductController {
  *                  description: The file to upload
  *     responses:
  *       201:
- *        description: Get merchant by ID successful
+ *        description: Create product successful!
  *        content:
  *          application/json:
  *            schema:
@@ -119,6 +148,81 @@ class ProductController {
  *              type: array
  */
 
-const productsInstance = new ProductsService();
-const fileInstance = new FileService()
-export default new ProductController(productsInstance, fileInstance);
+
+/**
+ * @swagger
+ * /products/{id}:
+ *   post:
+ *     summary: Update product by id
+ *     tags:
+ *       - Products
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Numeric ID of the product to update the product item
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The product name
+ *               desciption:
+ *                 type: string
+ *                 description: A short description of product
+ *               price:
+ *                 type: number
+ *                 description: Pirce of the product
+ *               isAvailable:
+ *                 type: boolean
+ *                 description: toogle to set product's availability
+ *               eta:
+ *                 type: string
+ *                 description: duration time of product before it served
+ *               bestSeller:
+ *                 type: number
+ *                 description: range from 1-5 to know how good the product is
+ *               updatedBy:
+ *                 type: string
+ *                 description: tao ito
+ *             example:
+ *               name: Alamang
+ *               description: Kumunidad ng mga hipong pinaglaro sa mainit na kawala. Pinagsayaw sa kumukulong mantika hanggang mamula
+ *               price: 400
+ *               isAvailable: false
+ *               eta: 00:30:10
+ *               bestSeller: 3
+ *               updatedBy: Pakialamerong Palaka
+  *     responses:
+ *       200:
+ *        description: product found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ */
+
+/**
+ * @swagger
+ *  /products/{id}:
+ *   delete:
+ *     summary: Delete product by id
+ *     description: removing a product using its id from db.
+ *     tags: [Products]
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: integer
+ *            required: true
+ *            description: Numeric ID of the product to get
+  *     responses:
+ *       200:
+ *        description: Product deleted success
+ */

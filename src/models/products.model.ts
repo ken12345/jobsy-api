@@ -6,7 +6,7 @@ export interface ProductsAttribute {
   id?: number;
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
   price: number;
   isAvailable: boolean;
   merchantId?: number;

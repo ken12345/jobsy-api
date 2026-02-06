@@ -8,6 +8,47 @@ class UserController {
    constructor(userService: UserService) {
     this.userService = userService;
   }
+  
+  public async getUserById(req: Request, res: Response): Promise<void> {
+    const userId: number = Number(req?.params?.id) || 0;
+    try {
+      const users = await this.userService.getUserById(userId);
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving user by Id', error });
+      throw error
+    }
+  };
+
+
+
+  public async createUser(req: Request<{}, {}, IUser>, res: Response) {
+    const { username, password, merchantId } = req.body;
+    try {
+      const newUser = await this.userService.createUser({username, password, merchantId})
+      res.status(201).json({ message: 'User registered successfully', newUser });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error registering user' });
+    }
+  }
+
+   public async authenticateUser(req: Request<{}, {}, IUser>, res: Response) {
+    const { username, password } = req.body;
+    try {
+      const user = await this.userService.login({username, password});
+       res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Invalid User' });
+    }
+  }
+
+}
+
+
+const userServiceInstance = new UserService();
+export default new UserController(userServiceInstance);
 
 /**
  * @swagger
@@ -32,15 +73,6 @@ class UserController {
  *               type: array
  *               items:
  *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   username:
- *                     type: string
- *                   password:
- *                      type: string
- *                   merchantId:
- *                      type: number
  * 
  */
 
@@ -78,15 +110,6 @@ class UserController {
  *          application/json:
  *            schema:
  *              type: array
- *              properties:
- *                id:
- *                  type: integer
- *                username:
- *                  type: string
- *                password:
- *                  type: string
- *                merchantId:
- *                  type: number
  */
 
   /**
@@ -119,53 +142,4 @@ class UserController {
  *          application/json:
  *            schema:
  *              type: array
- *              properties:
- *                id:
- *                  type: integer
- *                username:
- *                  type: string
- *                password:
- *                  type: string
- *                merchantId:
- *                  type: number
  */
-  
-  public async getUserById(req: Request, res: Response): Promise<void> {
-    const userId: number = Number(req?.params?.id) || 0;
-    try {
-      const users = await this.userService.getUserById(userId);
-      res.status(200).json(users);
-    } catch (error) {
-      res.status(500).json({ message: 'Error retrieving user by Id', error });
-      throw error
-    }
-  };
-
-
-
-  public async createUser(req: Request<{}, {}, IUser>, res: Response) {
-    const { username, password, merchantId } = req.body;
-    try {
-      const newUser = await this.userService.createUser({username, password, merchantId})
-      res.status(201).json({ message: 'User registered successfully', newUser });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error registering user' });
-    }
-  }
-
-   public async authenticateUser(req: Request<{}, {}, IUser>, res: Response) {
-    const { username, password } = req.body;
-    try {
-      const user = await this.userService.login({username, password});
-       res.status(200).json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Invalid User' });
-    }
-  }
-}
-
-
-const userServiceInstance = new UserService();
-export default new UserController(userServiceInstance);

@@ -9,5 +9,4 @@ export interface IProducts {
   bestSeller: number | 0;
   createdBy: string | "";
   updatedBy: string | "";
-  productImage: FormData
 }

@@ -5,7 +5,7 @@ export class FileService {
 
   public async uploadFile(file: any, merchantId: any) {
     try {
-   
+
       if (!merchantId || !file) {
         return "";
       }
@@ -17,15 +17,21 @@ export class FileService {
         file.originalname
       );
 
-      return await fetch("https://bucket.bitezy.online/upload", {
+      const isDev = process.env.NODE_ENV === "development";
+
+      const uploadUrl = isDev
+        ? "https://services.bitezy.online/bucket/upload"
+        : "http://127.0.0.1:3200/bucket/upload";
+
+      return fetch(uploadUrl, {
         method: "POST",
         headers: {
-          "x-service-key": process.env.SERVICE_KEY || "", // REFERENCE FROM ENV VARIABLES OR DATABASE TABLE
-          },
-        body: form as any
-      }).then(res => res.json())
-    
-	} catch (error) {
+          "x-service-key": process.env.SERVICE_KEY || "",
+        },
+        body: form,
+      }).then(res => res.json());
+
+    } catch (error) {
       throw error;
     }
   }

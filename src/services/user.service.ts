@@ -46,4 +46,9 @@ export class UserService {
       throw new Error('An error occurred during login');
     }
   } 
+
+
+  public deleteUserById(id: number) {
+    return User.destroy({where: { id } });
+  }
 }

@@ -147,7 +147,7 @@ export default new RoleController(roleInstance);
  *  /roles/{id}:
  *   delete:
  *     summary: Delete role by id
- *     description: removing a product using its id from db.
+ *     description: removing a role using its id from db.
  *     tags: [Roles]
  *     parameters:
  *        - in: path
@@ -155,7 +155,7 @@ export default new RoleController(roleInstance);
  *          schema:
  *            type: integer
  *            required: true
- *            description: Numeric ID of the product to get
+ *            description: Numeric ID of the user to get
   *     responses:
  *       204:
  *        description: Role deleted success

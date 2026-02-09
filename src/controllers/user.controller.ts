@@ -44,6 +44,16 @@ class UserController {
     }
   }
 
+  public async deleteUser(req: Request, res: Response) {
+    const id: number = Number(req?.params?.id);
+    try {
+      const result = await this.userService.deleteUserById(id);
+       res.status(204).json(result);
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting user by id'});
+    }
+  }
+
 }
 
 
@@ -142,4 +152,23 @@ export default new UserController(userServiceInstance);
  *          application/json:
  *            schema:
  *              type: array
+ */
+
+  /**
+ * @swagger
+ *  /users/{id}:
+ *   delete:
+ *     summary: Delete user by id
+ *     description: removing a user using its id from db.
+ *     tags: [Users]
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *            type: integer
+ *            required: true
+ *            description: Numeric ID of the user to get
+  *     responses:
+ *       204:
+ *        description: User deleted success
  */

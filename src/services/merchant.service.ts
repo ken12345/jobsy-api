@@ -25,4 +25,8 @@ export class MerchantService {
   public getMerchantById(id: number) {
     return Merchant.findByPk(id);
   }
+
+    public deleteMerchantById(id: number) {
+    return Merchant.destroy({where: { id } });
+  }
 }

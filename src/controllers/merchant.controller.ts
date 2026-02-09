@@ -3,24 +3,29 @@ import { MerchantService } from '../services/merchant.service';
 import { UserService } from '../services/user.service';
 import type { IMerchant } from '../interfaces/merchant.interface';
 import { ProductsService } from '../services/products.service';
+import { RoleService } from '../services/role.service';
+
 class MerchantController {
 
   private merchantService: MerchantService;
   private userService: UserService;
   private productService: ProductsService;
+  private roleService: RoleService
   
-  constructor(merchantService: MerchantService, userService: UserService, productService: ProductsService ) {
+  constructor(merchantService: MerchantService, userService: UserService, productService: ProductsService, roleService: RoleService ) {
     this.merchantService = merchantService;
     this.userService = userService;
     this.productService = productService;
+    this.roleService = roleService;
   }
 
   public async createMerchant(req:Request<{}, {}, IMerchant>, res: Response) {
-    const { merchantName, description, address, openTime, closeTime, locationCoord, availabilty, logo, code, updatedBy, username, password} = req.body;
+    const { merchantName, description, address, openTime, closeTime, locationCoord, availabilty, logo, code, updatedBy, username, password, email, contactNumber} = req.body;
     try {
-      const newMerchant = await this.merchantService.createMerchant({ merchantName, description, address, openTime, closeTime, locationCoord, availabilty, logo, code, updatedBy});
+      const newMerchant = await this.merchantService.createMerchant({ merchantName, description, address, openTime, closeTime, locationCoord, availabilty, logo, code, updatedBy, email, contactNumber});
       const newUser = await this.userService.createUser({username, password, merchantId: newMerchant.id});
-      res.status(201).json({newMerchant, userId: newUser.id });
+      const newRole = await this.roleService.createRole({name: "Admin", description: "Super User", merchantId: newMerchant.id })
+      res.status(201).json({newMerchant, userId: newUser.id, newRole});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error registering user' });
@@ -52,9 +57,11 @@ class MerchantController {
 
 
 const merchantServiceInstance = new MerchantService();
-const userServiceInstance = new UserService()
-const productInstance = new ProductsService()
-export default new MerchantController(merchantServiceInstance, userServiceInstance, productInstance)
+const userServiceInstance = new UserService();
+const productInstance = new ProductsService();
+const roleIntance = new RoleService();
+
+export default new MerchantController(merchantServiceInstance, userServiceInstance, productInstance, roleIntance)
 
   /**
  * @swagger
@@ -82,6 +89,8 @@ export default new MerchantController(merchantServiceInstance, userServiceInstan
  *                - updatedBy
  *                - username
  *                - password
+ *                - email
+ *                - contactNumber
  *              properties:
  *                merchantName:
  *                  type: string
@@ -119,6 +128,12 @@ export default new MerchantController(merchantServiceInstance, userServiceInstan
  *                password:
  *                  type: string
  *                  example: '12345'
+ *                email:
+ *                  type: string
+ *                  example: 'ken@gmail.com'
+ *                contactNumber:
+ *                  type: string
+ *                  example: '091919090099'
  *     responses:
  *       201:
  *        description: Get merchant by ID successful

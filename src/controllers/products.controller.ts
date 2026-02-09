@@ -52,7 +52,7 @@ class ProductController {
      try {
        const id: number = Number(req?.params?.id);
       const removed = await this.productsService.deleteProduct(id);
-      res.status(200).json(removed);
+      res.status(204).json(removed);
     } catch (error) {
        res.status(500).json({error });
        throw error;
@@ -223,6 +223,6 @@ export default new ProductController(productsInstance, fileInstance);
  *            required: true
  *            description: Numeric ID of the product to get
   *     responses:
- *       200:
+ *       204:
  *        description: Product deleted success
  */

@@ -15,7 +15,9 @@ export class MerchantService {
       availabilty: boolean, 
       logo: string, 
       code: string, 
-      updatedBy: string
+      updatedBy: string,
+      email: string,
+      contactNumber: string
     }) {
     return Merchant.create(merchantData, {include: {model: User}});
   }

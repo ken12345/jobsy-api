@@ -13,6 +13,8 @@ export interface MerchantAttributes {
   logo: string;
   code: string;
   updatedBy: string;
+  email: string;
+  contactNumber: string;
 }
 
 interface MerchantCreationAttributes extends Optional<MerchantAttributes, 'id'> {};
@@ -28,7 +30,9 @@ class Merchant extends Model<MerchantAttributes , MerchantCreationAttributes> im
   availabilty!: boolean;
   logo!: string;
   code!: string;
-  updatedBy!: string;  
+  updatedBy!: string;
+  email!: string;
+  contactNumber!: string;
 }
 
 Merchant.init(
@@ -44,6 +48,8 @@ Merchant.init(
     logo: {type: new DataTypes.STRING(50), allowNull: false},
     code: {type: new DataTypes.STRING(50), allowNull: false},
     updatedBy: {type: new DataTypes.STRING(50), allowNull: false},
+    email: {type: new DataTypes.STRING(50), allowNull: true},
+    contactNumber: {type: new DataTypes.STRING(20), allowNull: true},
   },
   {
     sequelize: sequelizeConnection,

@@ -20,6 +20,7 @@ const allowedOrigins = [
   'http://localhost:5152',
   'http://localhost:3000',
   'https://bitezy.online',
+    'https://www.bitezy.online',
   'https://api.bitezy.online'
 ];
 

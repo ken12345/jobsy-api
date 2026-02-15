@@ -7,6 +7,9 @@ import './config/associations';
 import cors from 'cors';
 import path from 'path';
 
+// Services
+import mailerRoutes from './routes/mailer.route';
+
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -20,7 +23,7 @@ const allowedOrigins = [
   'http://localhost:5152',
   'http://localhost:3000',
   'https://bitezy.online',
-    'https://www.bitezy.online',
+  'https://www.bitezy.online',
   'https://api.bitezy.online'
 ];
 
@@ -47,6 +50,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', apiRouter);
+app.use('/services/mailer', mailerRoutes)
 
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT} ${process.env.PORT}`);

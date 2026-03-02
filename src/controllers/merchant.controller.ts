@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import type { IMerchant } from '../interfaces/merchant.interface';
 import { ProductsService } from '../services/products.service';
 import { RoleService } from '../services/role.service';
+import { FileService } from '../services/file.service';
 
 class MerchantController {
 
@@ -19,10 +20,13 @@ class MerchantController {
     this.roleService = roleService;
   }
 
-  public async createMerchant(req:Request<{}, {}, IMerchant>, res: Response) {
-    const { merchantName, description, address, openTime, closeTime, locationCoord, availabilty, logo, code, updatedBy, username, password, email, contactNumber} = req.body;
+  public async createMerchant(req:Request, res: Response) {
+  
+    const {  username, password} = req.body;
     try {
-      const newMerchant = await this.merchantService.createMerchant({ merchantName, description, address, openTime, closeTime, locationCoord, availabilty, logo, code, updatedBy, email, contactNumber});
+      const files = req?.files && !Array.isArray(req.files) ? req.files : {};
+        console.log("kensh files", files)
+      const newMerchant = await this.merchantService.createMerchant(req.body, files?.logo, files?.banner);
       const newUser = await this.userService.createUser({username, password, merchantId: newMerchant.id});
       const newRole = await this.roleService.createRole({name: "Admin", description: "Super User", merchantId: newMerchant.id })
       res.status(201).json({newMerchant, userId: newUser.id, newRole});
@@ -66,12 +70,13 @@ class MerchantController {
 }
 
 
-const merchantServiceInstance = new MerchantService();
+const fileServiceInstance = new FileService();
+const merchantServiceInstance = new MerchantService(fileServiceInstance);
 const userServiceInstance = new UserService();
 const productInstance = new ProductsService();
 const roleIntance = new RoleService();
 
-export default new MerchantController(merchantServiceInstance, userServiceInstance, productInstance, roleIntance)
+export default new MerchantController(merchantServiceInstance, userServiceInstance, productInstance, roleIntance);
 
   /**
  * @swagger
@@ -83,18 +88,20 @@ export default new MerchantController(merchantServiceInstance, userServiceInstan
  *     requestBody:
  *        required: true
  *        content:
- *          application/json:
+ *          multipart/form-data:
  *            schema:
  *              type: object
  *              required:
  *                - merchantName
  *                - description
  *                - address
+ *                - province
+ *                - city
+ *                - postalCode
  *                - openTime
  *                - closeTime
+ *                - daysOpen
  *                - locationCoord
- *                - availabilty
- *                - logo
  *                - code
  *                - updatedBy
  *                - username
@@ -110,22 +117,36 @@ export default new MerchantController(merchantServiceInstance, userServiceInstan
  *                  example: 'sa jolliflea, bida ang tanga'
  *                address:
  *                  type: string
- *                  example: 'Biglang liko street, Brgy. Tibay, Amurao'
+ *                  example: 'Biglang liko street, Brgy. Tibay'
+ *                city:
+ *                  type: string
+ *                  example: 'Amurao'
+ *                province:
+ *                  type: string
+ *                  example: 'Oriental Mindoro'
+ *                postalCode:
+ *                  type: string
+ *                  example: '5212'
  *                openTime:
  *                  type: string
  *                  example: '8am'
  *                closeTime:
  *                  type: string
  *                  example: '10pm'
+ *                daysOpen:
+ *                  type: string
+ *                  example: 'Monday - Saturday'
  *                locationCoord:
  *                  type: string
  *                  example: '{"type": "Point","coordinates": [-74.0060, 40.7128]}'
- *                availabilty:
- *                  type: boolean
- *                  example: true
  *                logo:
  *                  type: string
- *                  sample: 'https://www.bitezy.online/ken.jpg'
+ *                  format: binary
+ *                  description: The file to upload
+ *                banner:
+ *                  type: string
+ *                  format: binary
+ *                  description: The file to upload
  *                code:
  *                  type: string
  *                  example: 'JVXCP12TY8'

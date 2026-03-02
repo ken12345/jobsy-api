@@ -9,7 +9,6 @@ import roleRoutes from './role.routes'
 const apiRouter: Router = express.Router();
 
 apiRouter.use('/users', validateApiKey, userRoutes);
-apiRouter.use("/merchants", validateApiKey, merchantRoutes)
 apiRouter.use("/merchants", validateApiKey, merchantRoutes);
 apiRouter.use("/products", validateApiKey, productRoutes);
 apiRouter.use("/roles", validateApiKey, roleRoutes);

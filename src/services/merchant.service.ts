@@ -29,8 +29,8 @@ export class MerchantService {
       contactNumber: string;
     }, logo: any, banner: any) {
       const merchant = await  Merchant.create(merchantData, {include: {model: User}});
-      const logourl = await this.fileService.uploadFile(logo, merchant.id);
-      const bannerurl = await this.fileService.uploadFile(banner, merchant.id);
+      const logourl = await this.fileService.uploadFile(logo[0], merchant.id);
+      const bannerurl = await this.fileService.uploadFile(banner[0], merchant.id);
       console.log("kensh banner", bannerurl)
       console.log("kensh logo", logourl)
       merchant.logoURL = logourl?.url;
